@@ -32,7 +32,7 @@ const  ContactForm = () => {
       name,
       phone,
     };
-    
+
     const enterContacts = contacts.some(
       contact =>
         (contact.name === name.toLowerCase() && contact.phone === phone) ||
@@ -48,7 +48,7 @@ const  ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={s}>
       <input
         type="text"
         name="name"
