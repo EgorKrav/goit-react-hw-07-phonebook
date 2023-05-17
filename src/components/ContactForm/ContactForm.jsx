@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from '@reduxjs/toolkit';
 import { selectContacts } from '../../redux/selectors';
-import { addContact } from '../../redux/operations';
+import { fetchContacts, addContact } from '../../redux/operations';
 import s from './ContactForm.module.css';
 
 const ContactForm = () => {
@@ -11,6 +10,10 @@ const ContactForm = () => {
 
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -29,13 +32,12 @@ const ContactForm = () => {
   const handleSubmit = event => {
     event.preventDefault();
     const contact = {
-      id: nanoid(),
       name,
       phone,
     };
 
     const enterContacts = contacts.some(
-      contact =>
+      (contact) =>
         (contact.name === name.toLowerCase() && contact.phone === phone) ||
         contact.phone === phone
     );

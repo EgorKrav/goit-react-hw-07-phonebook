@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const API_BASE_URL =
@@ -25,36 +25,4 @@ export const deleteContact = createAsyncThunk(
   }
 );
 
-const contactsSlice = createSlice({
-  name: 'contacts',
-  initialState: {
-    contacts: [],
-    status: 'idle',
-    error: null,
-  },
-  reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(fetchContacts.pending, state => {
-        state.status = 'loading';
-      })
-      .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.contacts = action.payload;
-      })
-      .addCase(fetchContacts.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(addContact.fulfilled, (state, action) => {
-        state.contacts.push(action.payload);
-      })
-      .addCase(deleteContact.fulfilled, (state, action) => {
-        state.contacts = state.contacts.filter(
-          contact => contact.id !== action.payload
-        );
-      });
-  },
-});
 
-export default contactsSlice.reducer;
